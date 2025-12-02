@@ -22,7 +22,7 @@ interface DateParameters {
  * Greeting Tool: Greets a person in a random language
  */
 // Apply tool decorator after function definition
-async function greeting(parameters: GreetingParameters) {
+async function greeting2(parameters: GreetingParameters) {
   const { name, language } = parameters;
 
   // If language not specified, choose randomly
@@ -49,7 +49,7 @@ async function greeting(parameters: GreetingParameters) {
  * Today's Date Tool: Returns today's date in the specified format
  */
 // Apply tool decorator after function definition
-async function todaysDate(parameters: DateParameters) {
+async function todaysDate2(parameters: DateParameters) {
   const format = parameters.format || '%Y-%m-%d';
 
   // Get today's date
@@ -97,7 +97,7 @@ tool({
       required: false
     }
   ]
-})(greeting);
+})(greeting2);
 
 tool({
   name: 'todays-date',
@@ -110,7 +110,7 @@ tool({
       required: false
     }
   ]
-})(todaysDate);
+})(todaysDate2);
 
 // Start the server
 const PORT = process.env.PORT || 3000;
