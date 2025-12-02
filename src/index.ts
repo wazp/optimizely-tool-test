@@ -22,27 +22,13 @@ interface DateParameters {
  * Greeting Tool: Greets a person in a random language
  */
 // Apply tool decorator after function definition
-async function greeting2(parameters: GreetingParameters) {
-  const { name, language } = parameters;
-
-  // If language not specified, choose randomly
-  const selectedLanguage = language ||
-    ['english', 'spanish', 'french'][Math.floor(Math.random() * 3)];
-
-  // Generate greeting based on language
-  let greeting: string;
-  if (selectedLanguage.toLowerCase() === 'spanish') {
-    greeting = `¡Hola, ${name}! ¿Cómo estás?`;
-  } else if (selectedLanguage.toLowerCase() === 'french') {
-    greeting = `Bonjour, ${name}! Comment ça va?`;
-  } else { // Default to English
-    greeting = `Hello, ${name}! How are you?`;
+async function iis(parameters: GreetingParameters) {
+  const response = await fetch('http://api.open-notify.org/iss-now.json');
+  if (!response.ok) {
+    throw new Error('Failed to fetch ISS location');
   }
-
-  return {
-    greeting,
-    language: selectedLanguage
-  };
+  const data = await response.json();
+  return data;
 }
 
 /**
@@ -81,23 +67,9 @@ async function todaysDate2(parameters: DateParameters) {
 
 // Register the tools using decorators with explicit parameter definitions
 tool({
-  name: 'greeting2',
-  description: 'Greets a person in a random language (English, Spanish, or French)',
-  parameters: [
-    {
-      name: 'name',
-      type: ParameterType.String,
-      description: 'Name of the person to greet',
-      required: true
-    },
-    {
-      name: 'language',
-      type: ParameterType.String,
-      description: 'Language for greeting (defaults to random)',
-      required: false
-    }
-  ]
-})(greeting2);
+  name: 'iis',
+  description: 'Get the location of the International Space Station (ISS)',
+})(iis);
 
 tool({
   name: 'todays-date2',
